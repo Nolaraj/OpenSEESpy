@@ -373,7 +373,9 @@ def ModalInfo_Writer(Heading = None, Data=None, Nth_writer = 1):
                 if text is not None:
                         object.write(str(text))
         if Nth_writer == 0:
+
                 Output_File = open(Output_txt, "a+")
+
                 string_1 = f"\n\n____________________Created On: {dt_string}____________________"
                 string_2 = f"_________________________Author: Nolaraj Poudel________________________\n\n"
                 Output_File.write(f"{string_1}\n")
