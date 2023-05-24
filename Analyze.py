@@ -183,6 +183,7 @@ def Modal_Analysis():
 
 
 def TH_Analysis():
+
     ops.initialize()
 
     Recorder_Data, Analysis_Options, Earthquake_Info = TH_Data()
@@ -493,6 +494,8 @@ Gravity_Analysis()
 [fixed_Nodes.append(n) for n in Model_Data["Node"]["Base"]]
 # print(fixed_Nodes)
 
+
+
 #Worked
 from _model import *
 print(ops.getNP())
@@ -501,8 +504,8 @@ fig_he = 20
 fig = plt.figure(figsize=(fig_wi / 2.54, fig_he / 2.54))
 fig = plt.figure()
 
-plot_model(node_labels=0, element_labels=0, fig_wi_he=(20., 14.))
-plot_defo()
+# plot_model(node_labels=0, element_labels=0, fig_wi_he=(20., 14.))
+# plot_defo()
 
 
 
@@ -523,5 +526,3 @@ plot_defo()
 #
 # ops.wipe()
 
-# import eSEESminiPy
-# eSEESminiPy.RunEQDynamicAnalysis

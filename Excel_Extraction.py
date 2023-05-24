@@ -23,6 +23,8 @@ ws_MB = wb["Model Builder"]
 ws_GA = wb["Gravity Analysis"]
 ws_MA = wb["Modal Analysis"]
 ws_TH = wb["TH Analysis"]
+ws_SMBC = wb["Soil Modelling_BC"]
+
 
 
 ##Section Builder
@@ -357,6 +359,73 @@ def Model_Info():
 
 
         return Nodes_Name, Node_NameCoOrd, XSpacing, YSpacing, ZSpacing, XMass, YMass, ZMass
+
+
+
+EqDOF_row = ws_SMBC.cell(column = 29, row=3).value
+BMat_row = ws_SMBC.cell(column = 29, row=5).value       #row 4 is reserved for the absorbatn boundary number
+BEle_row = ws_SMBC.cell(column = 29, row=6).value
+BaseRes_row = ws_SMBC.cell(column = 29, row=7).value
+
+def Soil_BC():
+        #Equal Dof data extraction
+        NosEqDOF = int(ws_SMBC.cell(column = 6, row=EqDOF_row-1).value)
+        Equal_DOF = []
+        for i in range(NosEqDOF):
+                PhysicalGrp = ws_SMBC.cell(column = 4+i, row=EqDOF_row+1).value
+                Equaldof = ws_SMBC.cell(column = 4+i, row=EqDOF_row+2).value
+                Equal_DOF.append([PhysicalGrp, Equaldof])
+
+
+
+        #Absorbant Boundary Materials Extraction
+        NosAbsBoundM = int(ws_SMBC.cell(column = 29, row=4).value)
+        AbsorbantMaterials = []
+        for i in range(NosAbsBoundM):
+                list1 = []
+                for j in range(1,8):
+                        list1.append(ws_SMBC.cell(column = 4+i, row=BMat_row+j).value)
+                AbsorbantMaterials.append(list1)
+
+
+        #Absorbant Boundary Elements Extraction
+        NosAbsBoundE = int(ws_SMBC.cell(column = 6, row=BEle_row-1).value)
+        AbsorbantElements = []
+        for i in range(NosAbsBoundE):
+                list1 = []
+                for j in range(1,6):
+                        list1.append(ws_SMBC.cell(column = 4+i, row=BEle_row+j).value)
+                AbsorbantElements.append(list1)
+
+        #Base Restraints
+        BaseResNo = int(ws_SMBC.cell(column = 6, row=BaseRes_row-1).value)
+        BaseRes = []
+        for i in range(NosAbsBoundE):
+                list1 = []
+                for j in range(1,3):
+                        list1.append(ws_SMBC.cell(column = 4+i, row=BaseRes_row+j).value)
+                BaseRes.append(list1)
+
+        return(Equal_DOF, AbsorbantMaterials, AbsorbantElements, BaseRes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
