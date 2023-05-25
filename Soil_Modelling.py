@@ -86,12 +86,27 @@ def Soil_Modeling():
             ops.element("zeroLength", eleTag, *NodeTag, "-mat", *Materials, "-dir", *Directions)
         Dynamic_Value += len(Nodes)
     viewnum = g2o.visualize_displacements_in_gmsh(gmsh.model)
-    # return model
+    return model
 
 model = Soil_Modeling()
 
 
 
 
-# ops.wipe()
-# gmsh.finalize()
+
+print("WHere")
+
+
+
+
+ops.printModel()
+
+viewnum = g2o.visualize_displacements_in_gmsh(gmsh.model)
+
+gmsh.fltk.run()
+
+gmsh.finalize()
+
+
+
+
