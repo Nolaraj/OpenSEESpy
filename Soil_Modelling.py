@@ -4,13 +4,13 @@ import openseespy.opensees as ops
 from Excel_Extraction import *
 import gmsh2opensees as g2o
 import math
-from numpy import setdiff1d
+from numpy import array, int32, double, concatenate, unique, setdiff1d, zeros
 Equal_DOF, AbsorbantMaterials, AbsorbantElements, BaseRes = Soil_BC()
 Static_Nsteps = 1
 
 
-def NodeTags(Physical_Group = "Solid", model = gmsh.model):
-    eleTags, nodeTags, eleName, eleNodes = g2o.get_elements_and_nodes_in_physical_group(Physical_Group, model)
+def NodeTags(Physical_Group = "Solid", model = gmsh.model, elementName = "Tetrahedron"):
+    eleTags, nodeTags, eleName, eleNodes = g2o.get_elements_and_nodes_in_physical_group(Physical_Group, model, elementName)
     return nodeTags
 def RemoveNodeDuplicates(NodeTags):
     Nodes = []
@@ -67,7 +67,7 @@ def Soil_Modeling():
 
 
     # Nodes Definitions
-    g2o.add_nodes_to_ops(NodeTags(), model)
+    g2o.add_nodes_to_ops(NodeTags(elementName="Hexahedron"), model)
 
 
     # Adding Soil Material of mesh
@@ -81,7 +81,6 @@ def Soil_Modeling():
     E = G * (2 * (1 + nu))
     rho = 2000
     ops.nDMaterial("ElasticIsotropic", soilMatTag, E, nu, rho)
-    print(soilMatTag, E, nu, rho)
 
     # Add Steel material model
     steelMatTag = 2
@@ -89,23 +88,26 @@ def Soil_Modeling():
     nu = 0.3  # -
     rho = 7300.  # kg / m³
     ops.nDMaterial('ElasticIsotropic', steelMatTag, E, nu, rho)
-    print(steelMatTag, E, nu, rho)
 
 
 
     #Adding 3D Solid elements
     #Soil Elements
     elementTags, nodeTags, elementName, elementNnodes = g2o.get_elements_and_nodes_in_physical_group("Soil",
-                                                                                                     gmsh.model)
+                                                                                                     gmsh.model, elementName="Hexahedron")
     for eleTag, eleNodes in zip(elementTags, nodeTags):
-        ops.element('FourNodeTetrahedron', eleTag, *eleNodes, soilMatTag)
+        if eleTag == 235:
+            print(eleTag, eleNodes)
+        ops.element('SSPbrick', eleTag, *eleNodes, soilMatTag)
+
+
 
     #Steel Elements
     elementTags, nodeTags, elementName, elementNnodes = g2o.get_elements_and_nodes_in_physical_group("FootingColumn",
-                                                                                                     gmsh.model)
+                                                                                                     gmsh.model, elementName="Hexahedron")
     for eleTag, eleNodes in zip(elementTags, nodeTags):
-        ops.element('FourNodeTetrahedron', eleTag, *eleNodes, steelMatTag)
-
+        print(eleTag, eleNodes)
+        ops.element('SSPbrick', eleTag, *eleNodes, steelMatTag)
 
     # Equal Dof Modelling and Base Restraints Modeling
     for items in BaseRes:
@@ -150,10 +152,6 @@ def Soil_Modeling():
 
     return model
 
-model = Soil_Modeling()
-
-
-
 
 
 
@@ -190,15 +188,25 @@ def Loading_Analysis():
     Analysis_Visualization()
 
 
-
+model = Soil_Modeling()
 Loading_Analysis()
-
-
-
-
-
 gmsh.fltk.run()
 gmsh.finalize()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
