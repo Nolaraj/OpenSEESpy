@@ -1,0 +1,6 @@
+ numpy
+ openseespy
+ pandas
+ openpyxl
+ matplotlib
+ gmsh
