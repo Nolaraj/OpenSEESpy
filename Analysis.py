@@ -490,21 +490,21 @@ Gravity_Analysis()
 
 
 
-[fixed_Nodes.append(n) for n in Model_Data["Node"]["Base"]]
-# print(fixed_Nodes)
-
-#Worked
-from _model import *
-print(ops.getNP())
-fig_wi = 10
-fig_he = 20
-fig = plt.figure(figsize=(fig_wi / 2.54, fig_he / 2.54))
-fig = plt.figure()
-
-plot_model(node_labels=0, element_labels=0, fig_wi_he=(20., 14.))
-plot_defo()
-
-
+# [fixed_Nodes.append(n) for n in Model_Data["Node"]["Base"]]
+# # print(fixed_Nodes)
+#
+# #Worked
+# from _model import *
+# print(ops.getNP())
+# fig_wi = 10
+# fig_he = 20
+# fig = plt.figure(figsize=(fig_wi / 2.54, fig_he / 2.54))
+# fig = plt.figure()
+#
+# plot_model(node_labels=0, element_labels=0, fig_wi_he=(20., 14.))
+# plot_defo()
+#
+#
 
 
 
