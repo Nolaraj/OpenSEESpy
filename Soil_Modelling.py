@@ -9,6 +9,7 @@ Equal_DOF, AbsorbantMaterials, AbsorbantElements, BaseRes = Soil_BC()
 Static_Nsteps = 1
 
 
+
 def NodeTags(Physical_Group = "Solid", model = gmsh.model, elementName = "Tetrahedron"):
     eleTags, nodeTags, eleName, eleNodes = g2o.get_elements_and_nodes_in_physical_group(Physical_Group, model, elementName)
     return nodeTags
