@@ -10,6 +10,7 @@ from Basic_Info import *
 import Basic_Info as BI
 
 
+
 def reset_analysis():
     """
     Resets the analysis by setting time to 0,
